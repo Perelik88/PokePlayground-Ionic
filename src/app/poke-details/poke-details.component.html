@@ -1,0 +1,136 @@
+<ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Details</ion-title>
+  </ion-toolbar>
+<!-- <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ng-container *ngIf="!editMode; else nameEdit">
+          {{ pokemon.name }}
+        </ng-container>
+        <ng-template #nameEdit>
+          <ion-input [(ngModel)]="editedPokemon.name"></ion-input>
+        </ng-template>
+      </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div class="poke-details">
+        <img [src]="pokemon.sprites.front_default" alt="{{ pokemon.name }}" />
+  
+        <label>Height:</label>
+        <ng-container *ngIf="!editMode; else heightEdit">
+          <p>{{ pokemon.height }}</p>
+        </ng-container>
+        <ng-template #heightEdit>
+          <ion-input type="number" [(ngModel)]="editedPokemon.height"></ion-input>
+        </ng-template>
+  
+        <label>Weight:</label>
+        <ng-container *ngIf="!editMode; else weightEdit">
+          <p>{{ pokemon.weight }}</p>
+        </ng-container>
+        <ng-template #weightEdit>
+          <ion-input type="number" [(ngModel)]="editedPokemon.weight"></ion-input>
+        </ng-template>
+  
+        <label>Base Experience:</label>
+        <ng-container *ngIf="!editMode; else expEdit">
+          <p>{{ pokemon.base_experience }}</p>
+        </ng-container>
+        <ng-template #expEdit>
+          <ion-input type="number" [(ngModel)]="editedPokemon.base_experience"></ion-input>
+        </ng-template>
+  
+        <label>Abilities:</label>
+        <ul>
+          <li *ngFor="let ability of pokemon.abilities">
+            {{ ability.ability.name }}
+          </li>
+        </ul>
+  
+        <ion-button *ngIf="!editMode" (click)="startEdit()">Edit</ion-button>
+        <ion-button color="success" *ngIf="editMode" (click)="saveEdit()">Save</ion-button>
+        <ion-button color="medium" *ngIf="editMode" (click)="cancelEdit()">Cancel</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card> -->
+
+  <ng-container *ngIf="(pokemon$ | async) as pokemon">
+    <ng-container *ngIf="(editedPokemon$ | async) as edited">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <ng-container *ngIf="!isEditing; else nameEdit">
+              {{ edited.name || pokemon.name }}
+            </ng-container>
+            <ng-template #nameEdit>
+              <ion-input
+                [value]="edited.name || pokemon.name"
+                (ionInput)="onFieldChange('name', $event.target.value)">
+              </ion-input>
+            </ng-template>
+          </ion-card-title>
+        </ion-card-header>
+  
+        <ion-card-content>
+          <div class="poke-details">
+            <img [src]="edited.sprites?.front_default || pokemon.sprites.front_default"
+                 [alt]="edited.name || pokemon.name" />
+  
+            <label>Height:</label>
+            <ng-container *ngIf="!isEditing; else heightEdit">
+              <p>{{ edited.height ?? pokemon.height }}</p>
+            </ng-container>
+            <ng-template #heightEdit>
+              <ion-input type="number"
+                [value]="edited.height ?? pokemon.height"
+                (ionInput)="onFieldChange('height', $event.target.value)">
+              </ion-input>
+            </ng-template>
+  
+            <label>Weight:</label>
+            <ng-container *ngIf="!isEditing; else weightEdit">
+              <p>{{ edited.weight ?? pokemon.weight }}</p>
+            </ng-container>
+            <ng-template #weightEdit>
+              <ion-input type="number"
+                [value]="edited.weight ?? pokemon.weight"
+                (ionInput)="onFieldChange('weight', $event.target.value)">
+              </ion-input>
+            </ng-template>
+  
+            <label>Base Experience:</label>
+            <ng-container *ngIf="!isEditing; else expEdit">
+              <p>{{ edited.base_experience ?? pokemon.base_experience }}</p>
+            </ng-container>
+            <ng-template #expEdit>
+              <ion-input type="number"
+                [value]="edited.base_experience ?? pokemon.base_experience"
+                (ionInput)="onFieldChange('base_experience', $event.target.value)">
+              </ion-input>
+            </ng-template>
+  
+            <label>Abilities:</label>
+            <ul>
+              <li *ngFor="let ability of pokemon.abilities">
+                {{ ability.ability.name }}
+              </li>
+            </ul>
+  
+            <!-- Buttons -->
+            <ion-button *ngIf="!isEditing" (click)="startEdit()">Edit</ion-button>
+            <ion-button color="success" *ngIf="isEditing" (click)="saveEdit()">Save</ion-button>
+            <ion-button color="medium" *ngIf="isEditing" (click)="cancelEdit()">Cancel</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </ng-container>
+  
+
+  

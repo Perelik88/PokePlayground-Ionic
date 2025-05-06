@@ -1,20 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-header class="flex-header">   
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+        <ion-title>Home</ion-title>
     </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <ion-buttons slot="primary">
+        <ion-button (click)="openMenu()">
+            <ion-icon name="menu"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+</ion-header>
+<ion-content>
+    @for(pokemon of pokemonList; track pokemon.url) {
+        <ion-card (click)="openDetails(pokemon.url)">
+            <ion-card-header>
+                <ion-card-title>{{pokemon.name}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                This is a simple card with some content.
+            </ion-card-content>
+        </ion-card>
+    
+    }
+
+
+    <div class="custom-button" (click)="openMenu()">
+        Custom Button
+    </div>
 </ion-content>
