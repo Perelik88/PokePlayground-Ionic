@@ -60,77 +60,76 @@
     </ion-card-content>
   </ion-card> -->
 
-  <ng-container *ngIf="(pokemon$ | async) as pokemon">
-    <ng-container *ngIf="(editedPokemon$ | async) as edited">
+  @if (pokemon$ | async; as pokemon) {
+    @if (editedPokemon$ | async; as edited) {
       <ion-card>
         <ion-card-header>
           <ion-card-title>
-            <ng-container *ngIf="!isEditing; else nameEdit">
+            @if (!isEditing) {
               {{ edited.name || pokemon.name }}
-            </ng-container>
-            <ng-template #nameEdit>
-              <ion-input
+            } @else {
+              <ion-input fill="outline" type="text"
                 [value]="edited.name || pokemon.name"
                 (ionInput)="onFieldChange('name', $event.target.value)">
               </ion-input>
-            </ng-template>
+            }
           </ion-card-title>
         </ion-card-header>
   
         <ion-card-content>
           <div class="poke-details">
-            <img [src]="edited.sprites?.front_default || pokemon.sprites.front_default"
-                 [alt]="edited.name || pokemon.name" />
+            <div>
+              <img [src]="edited.sprites?.front_default || pokemon.sprites.front_default"
+                   [alt]="edited.name || pokemon.name" />
+            </div>
   
             <label>Height:</label>
-            <ng-container *ngIf="!isEditing; else heightEdit">
+            @if (!isEditing) {
               <p>{{ edited.height ?? pokemon.height }}</p>
-            </ng-container>
-            <ng-template #heightEdit>
-              <ion-input type="number"
+            } @else {
+              <ion-input fill="outline" type="number"
                 [value]="edited.height ?? pokemon.height"
                 (ionInput)="onFieldChange('height', $event.target.value)">
               </ion-input>
-            </ng-template>
-  
+            }
+
+           
             <label>Weight:</label>
-            <ng-container *ngIf="!isEditing; else weightEdit">
+            @if (!isEditing) { 
               <p>{{ edited.weight ?? pokemon.weight }}</p>
-            </ng-container>
-            <ng-template #weightEdit>
-              <ion-input type="number"
+            } @else {
+              <ion-input fill="outline" type="number"
                 [value]="edited.weight ?? pokemon.weight"
                 (ionInput)="onFieldChange('weight', $event.target.value)">
               </ion-input>
-            </ng-template>
+            }
   
             <label>Base Experience:</label>
-            <ng-container *ngIf="!isEditing; else expEdit">
+            @if(!isEditing) {
               <p>{{ edited.base_experience ?? pokemon.base_experience }}</p>
-            </ng-container>
-            <ng-template #expEdit>
-              <ion-input type="number"
+            } @else {
+              <ion-input fill="outline" type="number"
                 [value]="edited.base_experience ?? pokemon.base_experience"
                 (ionInput)="onFieldChange('base_experience', $event.target.value)">
               </ion-input>
-            </ng-template>
-  
+            } 
             <label>Abilities:</label>
             <ul>
               <li *ngFor="let ability of pokemon.abilities">
                 {{ ability.ability.name }}
               </li>
             </ul>
-  
-            <!-- Buttons -->
-            <ion-button *ngIf="!isEditing" (click)="startEdit()">Edit</ion-button>
-            <ion-button color="success" *ngIf="isEditing" (click)="saveEdit()">Save</ion-button>
-            <ion-button color="medium" *ngIf="isEditing" (click)="cancelEdit()">Cancel</ion-button>
+            @if (!isEditing) {
+              <ion-button (click)="startEdit()">Edit</ion-button>
+            } @else {
+              <ion-button color="success" (click)="saveEdit()">Save</ion-button>
+              <ion-button color="medium" (click)="cancelEdit()">Cancel</ion-button>
+            }
           </div>
         </ion-card-content>
       </ion-card>
-    </ng-container>
-  </ng-container>
+    }
+  }
   
 
   
